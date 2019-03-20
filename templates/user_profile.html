@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    用户中心|听·音乐
+{% endblock %}
+
+{% block content %}
+    <section id="content">
+        <section class="vbox">
+            <section class="scrollable">
+                <section class="hbox stretch">
+                    <aside class="aside-lg bg-light lter b-r">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                    <div class="text-center m-b m-t">
+                                            <img src="/media/{{ user.avatar }}" width="128px" height="128px" class="img-circle">
+                                        <div>
+                                            <div class="h3 m-t-xs m-b-xs">{{ user.username }}</div>
+                                            <small class="text-muted"><i class="fa fa-map-marker"></i>
+                                                {{ user.address }}
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="btn-group btn-group-justified m-b">
+                                        <a href="{% url 'update_profile' %}" class="btn btn-dark btn-rounded">
+                                            <i class="fa fa-comment-o"></i>修改资料
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <span class="text-uc text-xs text-muted">生日</span>:&nbsp;&nbsp;{{ user.birthday|date:"Y-m-d" }}
+                                        <br>
+                                        <span class="text-uc text-xs text-muted">性别</span>:&nbsp;&nbsp;{% if user.gender == 'male' %}男{% else %}女{% endif %}
+                                        <br>
+                                        <span class="text-uc text-xs text-muted">手机</span>:&nbsp;&nbsp;{{ user.mobile }}
+
+                                        <div class="line"></div>
+                                        <small class="text-uc text-xs text-muted">社交</small>
+                                        <p class="m-t-sm">
+                                            <a class="btn btn-rounded btn-twitter btn-icon"><i
+                                                    class="fa fa-twitter"></i></a>
+                                            <a class="btn btn-rounded btn-facebook btn-icon"><i
+                                                    class="fa fa-facebook"></i></a>
+                                            <a class="btn btn-rounded btn-gplus btn-icon"><i
+                                                    class="fa fa-instagram"></i></a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                    <aside class="bg-white">
+                        <section class="vbox">
+                            <header class="header bg-light lt">
+                                <ul class="nav nav-tabs nav-white">
+                                    <li class="active"><a href="#activity" data-toggle="tab">音乐播放记录</a></li>
+                                    <li class=""><a href="#music" data-toggle="tab">音乐收藏</a></li>
+{#                                    <li class=""><a href="#video" data-toggle="tab">视频收藏</a></li>#}
+                                </ul>
+                            </header>
+                            <section class="scrollable">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="activity">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            {% for music in musics_li %}
+                                            <li class="list-group-item">
+                                                <a href="{% url 'music_play' music.id %}" class=" pull-left m-r-sm">
+                                                    <img src="/media/{{ music.image }} " width="40px" height="40px" class="img-circle">
+                                                </a>
+                                                <a href="{% url 'music_play' music.id %}" class="clear">
+                                                    <small class="pull-right">时间:{{ music.add_time|date:"Y-m-d" }}</small>
+                                                    <strong class="block">{{ music.music_name }}</strong>
+                                                    <small>{{ music.singer }}
+                                                    </small>
+                                                </a>
+                                            </li>
+                                                {% empty %}
+                                                <li class="list-group-item">
+                                                暂无记录>>>听几首歌再来吧🎶
+                                                </li>
+
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane " id="music">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            {% for fav_music in fav_musics %}
+                                            <li class="list-group-item">
+                                                <a href="{% url 'music_play' fav_music.music_id %}" class=" pull-left m-r-sm">
+                                                    <img src="/media/{{ fav_music.music.image }} " width="40px" height="40px" class="img-circle">
+                                                </a>
+                                                <a href="{% url 'music_play' fav_music.music_id %}" class="clear">
+                                                    <small class="pull-right">收藏时间:{{ fav_music.add_time|date:"Y-m-d" }}</small>
+                                                    <strong class="block">{{ fav_music.music.music_name}}</strong>
+                                                    <small>{{ fav_music.music.singer }}
+                                                    </small>
+                                                </a>
+                                            </li>
+                                                {% empty %}
+                                                <li class="list-group-item">
+                                                暂无记录>>>收藏几首歌再来吧🎶
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    </div>
+                            </section>
+                        </section>
+                    </aside>
+                    <aside class="col-lg-3 b-l">
+                        <section class="vbox">
+                            <section class="scrollable padder-v">
+                                <div class="panel">
+                                    <h4 class="font-thin padder">用户消息</h4>
+                                    <ul class="list-group">
+                                        {% for message in messages.object_list %}
+                                        <a href="" class="list-group-item clearfix">
+                                            <span class="pull-left thumb-sm avatar m-r">
+                                                </span>
+                                                <span class="clear">
+                                                    <span>{{ message.message }}</span>
+                                                    <small class="text-muted clear text-ellipsis">{{ message.add_time|date:"Y-m-d" }}</small>
+                                                </span>
+                                        </a>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                </section>
+            </section>
+        </section>
+        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
+           data-target="#nav,html"></a>
+    </section>
+{% endblock %}

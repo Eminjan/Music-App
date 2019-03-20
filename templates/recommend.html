@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    倾听|听·音乐
+{% endblock %}
+{% block content %}
+    <section id="content">
+        <section class="vbox">
+            <section class="w-f-md">
+                <section class="hbox stretch bg-black dker">
+                    <!-- side content -->
+                    <aside class="col-sm-5 no-padder" id="sidebar">
+                        <section class="vbox animated fadeInUp">
+                            <section class="scrollable">
+                                <div class="m-t-n-xxs item pos-rlt">
+                                    <div class="top text-right">
+                                    <span class="musicbar animate bg-success bg-empty inline m-r-lg m-t"
+                                          style="width:25px;height:30px">
+                                      <span class="bar1 a3 lter"></span>
+                                      <span class="bar2 a5 lt"></span>
+                                      <span class="bar3 a1 bg"></span>
+                                      <span class="bar4 a4 dk"></span>
+                                      <span class="bar5 a2 dker"></span>
+                                    </span>
+                                    </div>
+                                    <div class="bottom gd bg-info wrapper-lg">
+{#                                        <span class="pull-right text-sm">101,400 <br>关注</span>#}
+                                        <a href="{% url 'singer_detail' singer_id %}"><span class="h2 font-thin">{{ random_singer.name }}</span></a>
+                                    </div>
+                                    <img class="img-full" src="/media/{{ random_singer.avatar }}" height="265px"
+                                         alt="...">
+                                </div>
+                                <!-- 歌曲列表--->
+                                <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
+                                    {% for music in all_music %}
+                                        <li class="list-group-item">
+                                            <div class="pull-right m-l">
+                                                <a href="{% url 'music_play' music.id %}" class="m-r-sm"><i class="icon-cloud-download"></i></a>
+
+                                            </div>
+                                            <a href="{% url 'music_play' music.id %}" class="m-r-sm pull-left">
+                                                <i class="icon-control-play"></i>
+                                            </a>
+                                            <div class="clear text-ellipsis">
+                                                <span>{{ music.music_name }}</span>
+                                                <span class="text-muted"> -- {{ music.music_time }}</span>
+                                            </div>
+                                        </li>
+                                    {% empty %}
+                                        <li class="list-group-item">
+                                            暂无歌曲
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <!-- 歌曲列表--->
+                            </section>
+                        </section>
+                    </aside>
+                    <!-- / side content -->
+                    <section class="col-sm-4 no-padder bg">
+                        <section class="vbox">
+                            <section class="scrollable hover">
+                                <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
+                                    {% for music in random_music %}
+                                        <li class="list-group-item clearfix">
+                                            <a href="{% url 'music_play' music.id %}" class="pull-right m-t-sm m-l text-md">
+                                                <i class="icon-control-play "></i>
+                                            </a>
+                                            <a href="{% url 'music_play' music.id %}" class="pull-left  m-r">
+                                                <img src="/media/{{ music.image }}" height="45px" width="45px"
+                                                     alt="...">
+                                            </a>
+                                            <a class="clear" href="{% url 'music_play' music.id %}">
+                                                <span class="block text-ellipsis">{{ music.music_name }}</span>
+                                                <small class="text-muted">{{ music.singer }}</small>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </section>
+                        </section>
+                    </section>
+                    <section class="col-sm-3 no-padder lt">
+                        <section class="vbox">
+                            <section class="scrollable hover">
+                                <div class="m-t-n-xxs">
+                                    <div class="item pos-rlt">
+                                        <a href="{% url 'index' %}"
+                                           class="item-overlay active opacity wrapper-md font-xs">
+                                            <span class="block h3 font-bold text-info">发现</span>
+                                            <span class="text-muted">发现你喜欢的音乐</span>
+                                            <span class="bottom wrapper-md block">- <i
+                                                    class="icon-arrow-right i-lg pull-right"></i></span>
+                                        </a>
+                                        <a href="{% url 'index' %}">
+                                            <img class="img-full" src="{% static 'images/m40.jpg' %}" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="item pos-rlt">
+                                        <a href="{% url 'recommend' %}"
+                                           class="item-overlay active opacity wrapper-md font-xs text-right">
+                                            <span class="block h3 font-bold text-warning text-u-c">推荐</span>
+                                            <span class="text-muted">随机推荐你没听过的音乐</span>
+                                            <span class="bottom wrapper-md block"><i
+                                                    class="icon-arrow-right i-lg pull-left"></i> -</span>
+                                        </a>
+                                        <a href="{% url 'recommend' %}">
+                                            <img class="img-full" src="{% static 'images/m41.jpg' %}" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="item pos-rlt">
+                                        <a href="{% url 'video_list' %}"
+                                           class="item-overlay active opacity wrapper-md font-xs">
+                                            <span class="block h3 font-bold text-success text-u-c">分享</span>
+                                            <span class="text-muted">好的音乐和视频分享给别人</span>
+                                            <span class="bottom wrapper-md block">- <i
+                                                    class="icon-arrow-right i-lg pull-right"></i></span>
+                                        </a>
+                                        <a href="{% url 'video_list' %}">
+                                            <img class="img-full" src="{% static 'images/m42.jpg' %}" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="item pos-rlt">
+                                        <a href="#" class="item-overlay active opacity wrapper-md font-xs text-right">
+                                            <span class="block h3 font-bold text-white text-u-c">动态</span>
+                                            <span class="text-muted">有些路很远，走会很累，可是不走会后悔</span>
+                                            <span class="bottom wrapper-md block"><i
+                                                    class="icon-arrow-right i-lg pull-left"></i> -</span>
+                                        </a>
+                                        <a href="#">
+                                            <img class="img-full" src="{% static 'images/m44.jpg' %}" alt="...">
+                                        </a>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
+           data-target="#nav,html"></a>
+    </section>
+{% endblock %}

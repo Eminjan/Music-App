@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    歌手详情|听·音乐
+{% endblock %}
+
+{% block content %}
+    <section id="content">
+        <section class="vbox">
+            <section class="scrollable">
+                <section class="hbox stretch">
+                    <aside class="aside-lg bg-light lter b-r">
+                        <section class="vbox">
+                            <section class="scrollable">
+                                <div class="wrapper">
+                                    <div class="text-center m-b m-t">
+                                        <a href="#" class="thumb-lg">
+                                            <img src="/media/{{ singer.avatar }}" class="img-circle">
+                                        </a>
+                                        <div>
+                                            <div class="h3 m-t-xs m-b-xs">{{ singer.name }}</div>
+                                            <small class="text-muted"><i
+                                                    class="fa fa-map-marker"></i>&nbsp;&nbsp;{{ singer.national }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="panel wrapper">
+                                        <div class="row text-center">
+                                            <div class="col-xs-6">
+                                                <a href="#">
+
+                                                    <span class="m-b-xs h4 block">{{ singer_music_count }}</span>
+                                                    <small class="text-muted">歌曲</small>
+
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <a href="#">
+                                                    <span class="m-b-xs h4 block">{{ singer_video_count }}</span>
+                                                    <small class="text-muted">视频</small>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <b class="text-uc text-xs text-muted">{{ singer.name }}简介:</b><br>
+                                        <small>{{ singer.desc }}</small>
+
+                                        <div class="line"></div>
+                                        <small class="text-uc text-xs text-muted">社交</small>
+                                        <p class="m-t-sm">
+                                            <a href="#" class="btn btn-rounded btn-twitter btn-icon"><i
+                                                    class="fa fa-twitter"></i></a>
+                                            <a href="#" class="btn btn-rounded btn-facebook btn-icon"><i
+                                                    class="fa fa-facebook"></i></a>
+                                            <a href="#" class="btn btn-rounded btn-gplus btn-icon"><i
+                                                    class="fa fa-google-plus"></i></a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                    <aside class="bg-white">
+                        <section class="vbox">
+                            <header class="header bg-light lt">
+                                <ul class="nav nav-tabs nav-white">
+                                    <li class="active"><a href="#activity" data-toggle="tab">歌曲列表</a></li>
+                                    <li class=""><a href="#events" data-toggle="tab">视频列表</a></li>
+                                </ul>
+                            </header>
+                            <section class="scrollable">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="activity">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            {% for singer_music in singer_musics %}
+                                                <li class="list-group-item">
+                                                    <a href="{% url 'music_play' singer_music.id %}" class=" pull-left m-r-sm">
+                                                        <img src="/media/{{ singer_music.image }}" width="40px" height="40px" class="img-circle">
+                                                    </a>
+                                                    <a href="{% url 'music_play' singer_music.id %}" class="clear">
+                                                        <small class="pull-right">
+                                                            发布时间:&nbsp;{{ singer_music.release_time|date:"Y-m-d" }}</small>
+                                                        <strong class="block">{{ singer_music.music_name }}</strong>
+                                                        <small>
+                                                            语种:&nbsp;{{ singer_music.music_language }}
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时长:{{ singer_music.music_time }}&nbsp;分钟
+                                                        </small>
+                                                    </a>
+                                                </li>
+                                            {% empty %}
+                                                <li class="list-group-item">
+                                                    暂无歌曲
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane" id="events">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            {% for singer_video in singer_videos %}
+                                                <li class="list-group-item">
+                                                    <a href="{% url 'video_detail' singer_video.id %}" class="thumb-sm pull-left m-r-sm">
+                                                        <img src="/media/{{ singer_video.image }}" class="img-circle">
+                                                    </a>
+                                                    <a href="{% url 'video_detail' singer_video.id %}" class="clear">
+                                                        <small class="pull-right">
+                                                            发布时间:&nbsp;{{ singer_video.add_time|date:"Y-m-d" }}</small>
+                                                        <strong class="block">{{ singer_video.video_name }}</strong>
+                                                        <small>
+                                                            简述:&nbsp;{{ singer_video.desc }}
+                                                        </small>
+                                                    </a>
+                                                </li>
+                                            {% empty %}
+                                                <li class="list-group-item">
+                                                    暂无视频
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                </section>
+            </section>
+        </section>
+        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
+           data-target="#nav,html"></a>
+    </section>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    收藏列表|听·音乐
+{% endblock %}
+
+{% block content %}
+    <section class="panel panel-default">
+        <header class="panel-heading font-bold">
+            用户收藏
+        </header>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <aside class="bg-white">
+                        <section class="vbox">
+                            <header class="header bg-light lt">
+                                <ul class="nav nav-tabs nav-white">
+                                    <li class="active"><a href="#activity" data-toggle="tab">音乐收藏</a></li>
+                                    <li class=""><a href="#events" data-toggle="tab">歌手收藏</a></li>
+                                </ul>
+                            </header>
+                            <section class="scrollable">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="activity">
+                                        <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a0.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">3 minuts ago</small>
+                                                    <strong class="block">Drew Wllon</strong>
+                                                    <small>Wellcome and play this web application template ...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a1.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">1 hour ago</small>
+                                                    <strong class="block">Jonathan George</strong>
+                                                    <small>Morbi nec nunc condimentum...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a1.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">2 hours ago</small>
+                                                    <strong class="block">Josh Long</strong>
+                                                    <small>Vestibulum ullamcorper sodales nisi nec...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a1.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">1 day ago</small>
+                                                    <strong class="block">Jack Dorsty</strong>
+                                                    <small>Morbi nec nunc condimentum...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a1.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">3 days ago</small>
+                                                    <strong class="block">Morgen Kntooh</strong>
+                                                    <small>Mobile first web app for startup...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a1.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">Jun 21</small>
+                                                    <strong class="block">Yoha Omish</strong>
+                                                    <small>Morbi nec nunc condimentum...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a1.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">May 10</small>
+                                                    <strong class="block">Gole Lido</strong>
+                                                    <small>Vestibulum ullamcorper sodales nisi nec...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a7.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">Jan 2</small>
+                                                    <strong class="block">Jonthan Snow</strong>
+                                                    <small>Morbi nec nunc condimentum...</small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item" href="#email-content" data-toggle="class:show">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a8.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">3 minuts ago</small>
+                                                    <strong class="block">Drew Wllon</strong>
+                                                    <small>Vestibulum ullamcorper sodales nisi nec sodales nisi nec
+                                                        sodales nisi nec...
+                                                    </small>
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <img src="{% static 'images/a9.png' %}" class="img-circle">
+                                                </a>
+                                                <a href="#" class="clear">
+                                                    <small class="pull-right">1 hour ago</small>
+                                                    <strong class="block">Jonathan George</strong>
+                                                    <small>Morbi nec nunc condimentum...</small>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-pane" id="events">
+                                        <div class="text-center wrapper">
+                                            <i class="fa fa-spinner fa fa-spin fa fa-large"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </section>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

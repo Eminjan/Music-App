@@ -1,0 +1,23 @@
+#music {
+	width: 395px;
+	height: 505px;
+	border-radius: 10px;
+	margin: 10px 23px;
+	position: relative;
+	background: url(./../images/em.jpg) no-repeat;
+	background-size: cover;
+	text-align: center;
+}
+#container {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 395px;
+	height: 505px;
+	text-align: center;
+	background:rgba(255,255,255,0.6);
+}
+
+

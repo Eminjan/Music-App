@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    音乐分类|听·音乐
+{% endblock %}
+{% block content %}
+    <section class="hbox stretch">
+        <aside class="aside bg-light dk" id="sidebar">
+            <section class="vbox animated fadeInUp">
+                <section class="scrollable hover">
+                    <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto">
+                        {% for music_type in music_types %}
+                            <a href="{% url 'music_with_type' music_type.id %}" class="list-group-item">
+                                {{ music_type.type_name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </section>
+            </section>
+        </aside>
+        <section>
+            <section class="vbox">
+                <section class="scrollable padder-lg">
+                    <h4 class="font-thin m-b">全部音乐</h4>
+                    <div class="row row-sm">
+                        {% for music in all_music.object_list %}
+                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                <div class="item">
+                                    <div class="pos-rlt">
+                                        <div class="item-overlay opacity r r-2x bg-black">
+                                            <div class="center text-center m-t-n">
+                                                <a href="{% url 'music_play' music.id %}"><i
+                                                        class="fa fa-play-circle i-2x"></i></a>
+                                            </div>
+                                        </div>
+                                        <a href="{% url 'music_play' music.id %}"><img src="/media/{{ music.image }}"
+                                                                                       alt=""
+                                                                                       class="r r-2x" width="100%"
+                                                                                       height="140px"></a>
+                                    </div>
+                                    <div class="padder-v">
+                                        <a href="{% url 'music_play' music.id %}" data-bjax data-target="#bjax-target"
+                                           data-el="#bjax-el" data-replace="true"
+                                           class="text-ellipsis">{{ music.music_name }}</a>
+                                        <a href="{% url 'music_play' music.id %}" data-bjax data-target="#bjax-target"
+                                           data-el="#bjax-el" data-replace="true"
+                                           class="text-ellipsis text-xs text-muted">{{ music.singer }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <li class="list-group-item">
+                                暂无歌曲
+                            </li>
+                        {% endfor %}
+                    </div>
+                    <ul class="pagination pagination">
+                        {% if all_music.has_previous %}
+                            <li><a href="?page={{ all_music.previous_page_number }}"><i class="fa fa-chevron-left"></i></a>
+                            </li>
+                        {% else %}
+
+                        {% endif %}
+                        {% for p in all_music.paginator.page_range %}
+                            {% ifequal p all_music.number %}
+                                <li class=""><a href="">{{ p }}</a></li>
+                            {% else %}
+                                <li><a href="?page={{ p }}">{{ p }}</a></li>
+                            {% endifequal %}
+                        {% endfor %}
+                        {% if all_music.has_next %}
+                            <li><a href="?page={{ all_music.next_page_number }}"><i class="fa fa-chevron-right"></i></a>
+                            </li>
+                        {% else %}
+
+                        {% endif %}
+                    </ul>
+                </section>
+            </section>
+        </section>
+    </section>
+{% endblock %}

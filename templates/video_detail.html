@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    视频详情|听·音乐
+{% endblock %}
+{% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/share.min.css' %}" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'jwplayer/skins/stormtrooper.css' %}">
+{% endblock %}
+{% block content %}
+    <section id="content">
+        <section class="vbox">
+            <section class="scrollable wrapper-lg">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="panel">
+                            <div id="moviecontainer"></div>
+                            <div class="wrapper-lg">
+                                <h2 class="m-t-none text-black">{{ video.video_name }}</h2>
+
+                                <div class="post-sum">
+                                    <p>{{ video.desc }}</p>
+                                </div>
+                                <li class="row text-center center-block">
+                                    <div class="social-share" data-weibo-title="分享到微博是会用这个标题"
+                                         data-qq-title="分享到QQ是会用这个标题" data-sites="wechat, qq, qzone,weibo,douban"></div>
+                                </li>
+                                <div class="line b-b"></div>
+                                <div class="text-muted">
+                                    <i class="fa fa-user icon-muted"></i> by <a
+                                        href="{% url 'singer_detail' video_singer %}"
+                                        class="m-r-sm">{{ video.singer }}</a>
+                                    <i class="fa fa-clock-o icon-muted"></i>{{ video.add_time|date:"Y-m-d" }}
+                                    <a href="#" class="m-l-sm"><i
+                                            class="fa fa-comment-o icon-muted"></i>{{ video.comment_nums }}
+                                        评论</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">&nbsp;视频评论</h3>
+                            </div>
+                            <div class="panel-body">
+                                {% if request.user.is_authenticated %}
+                                {% else %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert">
+                                            <span aria-hidden="true">×</span>
+                                            <span class="sr-only">Close</span>
+                                        </button>
+                                        <strong>请先<a href="{% url 'login' %}" target="_blank"
+                                                     class="text-info">登录</a>，才可参与评论！</strong>
+                                    </div>
+                                {% endif %}
+                                <ol class="breadcrumb" style="margin-top:6px;">
+                                    <li>全部评论</li>
+                                </ol>
+                                {% if request.user.is_authenticated %}
+                                    <form role="form" style="margin-bottom:6px;" method="post"
+                                          action="{% url 'video_comment' %}">
+                                        <div class="form-group">
+                                            <div>
+                                                <input type="hidden" name="video_id" value="{{ video.id }}">
+                                                <textarea name="content" id="input_content"></textarea>
+                                            </div>
+
+                                            <div class="col-xs-8" id="error_content"></div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">提交评论</button>
+                                        {% csrf_token %}
+                                    </form>
+                                {% endif %}
+                                <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
+                                    {% for comment in comments.object_list %}
+                                        <li class="list-group-item clearfix">
+                                            <a href="{% url 'user_center' %}" class="pull-left  m-r">
+                                                <img src="/media/{{ comment.user.avatar }}" height="45px" width="45px"
+                                                     alt="...">
+                                            </a>
+                                            <a class="clear" href="{% url 'user_center' %}">
+                                                <span class="block text-ellipsis">{{ comment.user.username }}</span>
+                                                <small class="text-muted">
+                                                    {% autoescape off %}{{ comment.content }}{% endautoescape %}</small>
+                                                <small class="pull-right">
+                                                    时间:{{ comment.add_time|date:"Y-m-d H:i:s" }}</small>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="col-md-12 text-center">
+                        <nav aria-label="Page navigation">
+                             <ul class="pagination">
+                        {% if comments.has_previous %}
+                            <li>
+                            <a href="?{{ comments.previous_page_number.querystring }}" aria-label="Previous">
+                                <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% for page in comments.pages %}
+                          {% if page %}
+                            {% ifequal page comments.number %}
+                               <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                            {% else %}
+                               <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                            {% endifequal %}
+                          {% else %}
+                             <li class="none"><a href="">...</a></li>
+                      {% endif %}
+                       {% endfor %}
+                    {% if comments.has_next %}
+                        <li>
+                            <a href="?{{ comments.next_page_number.querystring }}" aria-label="Next">
+                                <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                        </nav>
+                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">推荐视频</div>
+                            <div class="panel-body">
+                                {% for r_video in recommend_video %}
+                                    <article class="media">
+                                        <a href="{% url 'video_detail' video.id %}" class="pull-left m-t-xs">
+                                            <img src="/media/{{ r_video.image }}" width="128px" height="64px">
+                                        </a>
+                                        <div class="media-body">
+                                            <a href="{% url 'video_detail' video.id %}"
+                                               class="font-semibold">{{ r_video.video_name }}</a>
+                                            <div class="text-xs block m-t-xs">作者:&nbsp;&nbsp;<a
+                                                    href="{% url 'singer_detail' video_singer %}">{{ r_video.singer }}</a>&nbsp;&nbsp;
+                                                <p>上传于:&nbsp;&nbsp;{{ r_video.add_time|date:"Y-m-d" }}</p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                {% empty %}
+                                    <li class="list-group-item">
+                                        暂无推荐视频
+                                    </li>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
+           data-target="#nav,html"></a>
+    </section>
+{% endblock %}
+{% block custom_js %}
+    <script src="{% static 'js/social-share.min.js' %}"></script>
+    <script src="{% static 'jwplayer/jwplayer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ueditor/ueditor.config.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ueditor/ueditor.all.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ueditor/lang/zh-cn/zh-cn.js' %}"></script>
+    <script>
+        SyntaxHighlighter.all();
+    </script>
+    <script>
+        var ue = UE.getEditor('input_content', {
+            toolbars: [
+                ['fullscreen', 'emotion', 'preview', 'link']
+            ],
+            initialFrameWidth: "100%",
+            initialFrameHeight: "100",
+        });
+    </script>
+    <script type="text/javascript">
+        jwplayer.key = "P9VTqT/X6TSP4gi/hy1wy23BivBhjdzVjMeOaQ==";
+    </script>
+    <script type="text/javascript">
+        jwplayer("moviecontainer").setup({
+            flashplayer: "{% static 'jwplayer/jwplayer.flash.swf' %}",
+            playlist: [{
+                file: "/media/{{ video.video_file }}",//如果使用上传的文件
+                title: "{{ video.video_name }}"
+            }],
+            modes: [{
+                type: "html5"
+            }, {
+                type: "flash",
+                src: "{% static 'jwplayer/jwplayer.flash.swf' %}"
+            }, {
+                type: "download"
+            }],
+            skin: {
+                name: "vapor"
+            },
+            "playlist.position": "left",
+            "playlist.size": 400,
+            height: 400,
+            plugins: {
+                gapro: {accountid: "UKsi93X940-24"}
+
+            },
+            width: 807,
+        });
+    </script>
+{% endblock %}
+

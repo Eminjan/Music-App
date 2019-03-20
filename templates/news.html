@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    动态新闻|听·音乐
+{% endblock %}
+
+{% block content %}
+    <section id="content">
+        <section class="hbox stretch">
+            <aside>
+                <section class="vbox">
+                    <section class="scrollable wrapper">
+                        <div class="timeline">
+                            {% for news in all_news %}
+                                {% if news.id|divisibleby:2 %}
+                                    <article class="timeline-item">
+                                {% else %}
+                                    <article class="timeline-item alt">
+                                {% endif %}
+                            <div class="timeline-caption">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        {% if news.id|divisibleby:2 %}
+                                        <span class="arrow left"></span>
+                                        {% else %}
+                                        <span class="arrow right"></span>
+                                        {% endif %}
+                                        <span class="timeline-icon"><i class="fa fa-file-text time-icon bg-primary"></i></span>
+                                        <span class="timeline-date">{{ news.add_time|date:"m-d H:i" }}</span>
+                                        <a href="{% url 'singer_detail' news.singer.id %}">
+                                            <h4 class="text-info">{{ news.title }}</h4>
+                                            <h5 class="text-primary-dk">
+                                                {{ news.content }}
+                                            </h5>
+                                            <div class="text-sm">歌&nbsp;&nbsp;手:&nbsp;&nbsp;{{ news.singer.name }}</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            </article>
+                            {% endfor %}
+                    </section>
+                </section>
+            </aside>
+            <!-- /.aside -->
+        </section>
+        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
+           data-target="#nav,html"></a>
+    </section>
+{% endblock %}

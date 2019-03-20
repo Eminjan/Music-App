@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    视频|听·音乐
+{% endblock %}
+{% block content %}
+    <section id="content">
+        <section class="vbox" id="bjax-el">
+            <section class="scrollable padder-lg">
+                <h2 class="font-thin m-b">推荐视频</h2>
+                <div class="row row-sm">
+                    {% for video in recommend_video %}
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="item">
+                                <div class="pos-rlt">
+                                    <div class="item-overlay opacity r r-2x bg-black">
+                                        <div class="center text-center m-t-n">
+                                            <a href="{% url 'video_detail' video.id %}"><i class="fa fa-play-circle i-2x"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="top">
+                                        <span class="badge bg-dark m-l-sm m-t-sm">{{ video.video_time }}</span>
+                                    </div>
+                                    <a href="{% url 'video_detail' video.id %}"><img src="/media/{{ video.image }}" alt=""
+                                                                          class="r r-2x" width="400px"
+                                                                          height="200px"></a>
+                                </div>
+                                <div class="padder-v">
+                                    <a href="{% url 'video_detail' video.id %}" class="text-ellipsis">{{ video.video_name }}</a>
+                                    <a href="{% url 'video_detail' video.id %}"
+                                       class="text-ellipsis text-xs text-muted">{{ video.singer }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <li class="list-group-item">
+                            暂无推荐视频
+                        </li>
+                    {% endfor %}
+                </div>
+                <h3 class="font-thin m-b">视频列表</h3>
+                <div class="row row-sm">
+                    {% for video in all_video.object_list %}
+                        <div class="col-xs-6 col-sm-4 col-md-3">
+                            <div class="item">
+                                <div class="pos-rlt">
+                                    <div class="item-overlay opacity r r-2x bg-black">
+                                        <div class="center text-center m-t-n">
+                                            <a href="{% url 'video_detail' video.id %}"><i class="fa fa-play-circle i-2x"></i></a>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'video_detail' video.id %}"><img src="/media{{ al_video.image }}/" alt=""
+                                                                          class="r r-2x img-full"></a>
+                                </div>
+                                <div class="padder-v">
+                                    <a href="{% url 'video_detail' video.id %}" class="text-ellipsis">{{ al_video.vide_name }}</a>
+                                    <a href="{% url 'video_detail' video.id %}"
+                                       class="text-ellipsis text-xs text-muted">{{ al_video.singer }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <li class="list-group-item">
+                            暂无视频
+                        </li>
+                    {% endfor %}
+
+                </div>
+                <ul class="pagination pagination">
+                    {% if all_video.has_previous %}
+                        <li><a href="?page={{ all_video.previous_page_number }}"><i class="fa fa-chevron-left"></i></a>
+                        </li>
+                    {% else %}
+
+                    {% endif %}
+                    {% for p in all_video.paginator.page_range %}
+                        {% ifequal p all_video.number %}
+                            <li class=""><a href="">{{ p }}</a></li>
+                        {% else %}
+                            <li><a href="?page={{ p }}">{{ p }}</a></li>
+                        {% endifequal %}
+                    {% endfor %}
+                    {% if all_music.has_next %}
+                        <li><a href="?page={{ all_video.next_page_number }}"><i class="fa fa-chevron-right"></i></a>
+                        </li>
+                    {% else %}
+
+                    {% endif %}
+                </ul>
+            </section>
+        </section>
+        <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
+           data-target="#nav,html"></a>
+    </section>
+{% endblock %}
+

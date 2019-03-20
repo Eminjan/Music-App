@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description"
+          content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/simple-line-icons.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/font.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}" type="text/css"/>
+    {% block custom_css %}
+
+    {% endblock %}
+    <!--[if lt IE 9]>
+    <script src="{% static 'js/ie/html5shiv.js' %}"></script>
+    <script src="{% static 'js/ie/respond.min.js' %}"></script>
+    <script src="{% static 'js/ie/excanvas.js' %}"></script>
+    <![endif]-->
+</head>
+<body class="">
+<section class="vbox">
+    <header class="bg-white-only header header-md navbar navbar-fixed-top-xs">
+        <div class="navbar-header aside bg-info nav-xs">
+            <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
+                <i class="icon-list"></i>
+            </a>
+            <a href="{% url 'index' %}" class="navbar-brand text-lt">
+                <i class="icon-earphones"></i>
+                <img src="{% static 'images/logo.png' %}" alt="." class="hide">
+                <span class="hidden-nav-xs m-l-sm">听·音乐</span>
+            </a>
+            <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
+                <i class="icon-settings"></i>
+            </a>
+        </div>
+        <ul class="nav navbar-nav hidden-xs">
+            <li>
+                <a href="#nav,.navbar-header" data-toggle="class:nav-xs,nav-xs" class="text-muted">
+                    <i class="fa fa-indent text"></i>
+                    <i class="fa fa-dedent text-active"></i>
+                </a>
+            </li>
+        </ul>
+        <form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search"
+              action="{% url 'search_result' %}" method="GET">
+            <div class="form-group">
+                <div class="input-group">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
+            </span>
+                    <input type="text" name="keywords" class="form-control input-sm no-border rounded"
+                           placeholder="搜索音乐/视频.....">
+                </div>
+            </div>
+        </form>
+        {% if request.user.is_authenticated %}
+            <div class="navbar-right ">
+                <ul class="nav navbar-nav m-n hidden-xs nav-user user">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
+                      <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                        <img src="/media/{{ user.avatar }}" class="img-circle" width="40px" height="40px">
+                      </span>
+                            {{ user.username }}<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight">
+                            <li>
+                                <span class="arrow top"></span>
+                                <a href="{% url 'user_center' %}">个人资料</a>
+
+                            </li>
+                            <li>
+                                <a href="{% url 'modify_pwd' %}">修改密码</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'user_center' %}">
+                                    <span class="badge bg-danger pull-right">{{ user.unread_message.nums }}</span>
+                                    消息
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}">退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+
+        {% endif %}
+    </header>
+    <section>
+        <section class="hbox stretch">
+            <!-- .aside -->
+            <aside class="bg-black dk nav-xs aside hidden-print" id="nav">
+                <section class="vbox">
+                    <section class="w-f-md scrollable">
+                        <div class="slim-scroll" data-height="auto" data-disable-fade-out="true" data-distance="0"
+                             data-size="10px" data-railOpacity="0.2">
+                            <nav class="nav-primary hidden-xs">
+                                <ul class="nav bg clearfix">
+                                    <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
+
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'index' %}">
+                                            <i class="icon-disc icon text-success"></i>
+                                            <span class="font-bold">发现</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'music_type' %}">
+                                            <i class="icon-music-tone-alt icon text-info"></i>
+                                            <span class="font-bold">分类</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'news' %}">
+                                            <i class="icon-drawer icon text-primary-lter"></i>
+                                            <span class="font-bold">动态</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'recommend' %}">
+                                            <i class="icon-list icon  text-info-dker"></i>
+                                            <span class="font-bold">推荐</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'video_list' %}" data-target="#content" data-el="#bjax-el"
+                                           data-replace="true">
+                                            <i class="icon-social-youtube icon  text-primary"></i>
+                                            <span class="font-bold">视频</span>
+                                        </a>
+                                    </li>
+                                    <li class="m-b hidden-nav-xs"></li>
+                                </ul>
+                                <ul class="nav text-sm">
+                                    <li>
+                                        <a href="{% url 'user_center' %}">
+                                            <i class="icon-music-tone icon"></i>
+                                            <span>历史播放</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- / nav -->
+                        </div>
+                    </section>
+                    {% if request.user.is_authenticated %}
+                        <footer class="footer hidden-xs no-padder text-center-nav-xs">
+                            <div class="bg hidden-xs ">
+                                <div class="dropdown dropup wrapper-sm clearfix">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <span class="thumb-sm avatar pull-left m-l-xs">
+                        <img src="/media/{{ user.avatar }}" class="dker" alt="...">
+                        <i class="on b-black"></i>
+                      </span>
+                                        <span class="hidden-nav-xs clear">
+                                <span class="block m-l">
+                                  <strong class="font-bold text-lt">{{ user.username }}</strong>
+                                  <b class="caret"></b>
+                                </span>
+                              </span>
+                                    </a>
+                                    <ul class="dropdown-menu animated fadeInRight aside text-left">
+                                        <li>
+                                            <span class="arrow bottom hidden-nav-xs"></span>
+                                            <a href="{% url 'user_center' %}">个人资料</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'modify_pwd' %}">修改密码</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'user_center' %}">
+                                                <span class="badge bg-danger pull-right">{{ user.unread_message.nums }}</span>
+                                                消息
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'logout' %}">退出</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </footer>
+                    {% endif %}
+                </section>
+            </aside>
+            <!-- /.aside -->
+
+            <section id="content">
+                <section class="hbox stretch">
+                    <section>
+                        <section class="vbox">
+                            {% block content %}
+                            {% endblock %}
+
+                        </section>
+                    </section>
+                </section>
+                <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
+                   data-target="#nav,html"></a>
+            </section>
+        </section>
+    </section>
+</section>
+{% block custom_js %}
+
+{% endblock %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<!-- App -->
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static 'js/app.plugin.js' %}"></script>
+
+</body>
+</html>

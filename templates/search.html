@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    搜索结果
+{% endblock %}
+
+{% block content %}
+    <section class="vbox">
+        <header class="header bg-light lt">
+            <ul class="nav nav-tabs nav-white">
+                <li class="active"><a href="#activity" data-toggle="tab">搜索音乐</a></li>
+                <li class=""><a href="#music" data-toggle="tab">搜索视频</a></li>
+            </ul>
+        </header>
+        <section class="scrollable">
+            <div class="tab-content">
+                <div class="tab-pane active" id="activity">
+                    {% for music in musics.object_list %}
+                        <li class="list-group-item">
+                            <a href="{% url 'music_play' music.id %}" class="pull-left m-r-sm">
+                                <img src="/media/{{ music.image }}" width="40px" height="40px" alt="">
+                            </a>
+                            <a href="{% url 'music_play' music.id %}" class="clear">
+                                <small class="pull-right">时间:{{ music.add_time|date:"Y-m-d" }}</small>
+                                <strong class="block">{{ music.music_name }}</strong>
+                                <small>{{ music.singer }}
+                                </small>
+                            </a>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">
+                            暂无音乐
+                        </li>
+                    {% endfor %}
+                    <div class="col-md-12 text-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if musics.has_previous %}
+                                    <li>
+                                        <a href="?{{ musics.previous_page_number.querystring }}" aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% for page in musics.pages %}
+                                    {% if page %}
+                                        {% ifequal page musics.number %}
+                                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        {% else %}
+                                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        {% endifequal %}
+                                    {% else %}
+                                        <li class="none"><a href="">...</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if musics.has_next %}
+                                    <li>
+                                        <a href="?{{ musics.next_page_number.querystring }}" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="music">
+                    {% for video in videos.object_list %}
+                        <li class="list-group-item">
+                            <a href="{% url 'video_detail' video.id %}" class="pull-left m-r-sm">
+                                <img src="/media/{{ video.image }}" width="40px" height="40px" alt="">
+                            </a>
+                            <a href="{% url 'video_detail' video.id %}" class="clear">
+                                <small class="pull-right">时间:{{ video.add_time|date:"Y-m-d" }}</small>
+                                <strong class="block">{{ video.video_name }}</strong>
+                                <small>{{ video.singer }}
+                                </small>
+                            </a>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">
+                            暂无视频
+                        </li>
+                    {% endfor %}
+                    <div class="col-md-12 text-center">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if videos.has_previous %}
+                                    <li>
+                                        <a href="?{{ videos.previous_page_number.querystring }}" aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% for page in videos.pages %}
+                                    {% if page %}
+                                        {% ifequal page videos.number %}
+                                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        {% else %}
+                                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        {% endifequal %}
+                                    {% else %}
+                                        <li class="none"><a href="">...</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if videos.has_next %}
+                                    <li>
+                                        <a href="?{{ videos.next_page_number.querystring }}" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    </section>
+{% endblock %}

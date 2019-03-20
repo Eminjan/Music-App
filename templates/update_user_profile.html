@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    修改资料|听·音乐
+{% endblock %}
+{% block content %}
+    <section class="panel panel-default">
+        <header class="panel-heading font-bold text-center">
+            修改资料
+        </header>
+
+        <div class="text-center m-b m-t">
+            <a href="" class="thumb-lg">
+                <img src="/media/{{ request.user.avatar }}" class="img-circle">
+            </a>
+            <div>
+                <div class="h3 m-t-xs m-b-xs">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        修改头像
+                    </button>
+
+                    <!-- Modal -->
+                    <form action="{% url 'upload_avatar' %}" class="form-horizontal" method="POST"
+                          enctype="multipart/form-data">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">上传头像</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="">
+                                        <div class="modal-body">
+                                            <form action="">
+                                                <div class="file-loading">
+                                                    <input id="input-b9" name="avatar" multiple type="file">
+                                                </div>
+                                                <div id="kartik-file-errors"></div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭
+                                            </button>
+                                            <button type="submit" class="btn btn-primary"
+                                                    title="Your custom upload logic">保存
+                                            </button>
+                                        </div>
+                                        {% csrf_token %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                    </form>
+                    <script>
+                        $(document).on('ready', function () {
+                            $("#avatar").fileinput({
+                                showPreview: false,
+                                showUpload: false,
+                                elErrorContainer: '#kartik-file-errors',
+                                allowedFileExtensions: ["jpg", "png", "gif"],
+                                uploadUrl: {% url 'upload_avatar' %}
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-body">
+            <form class="form-horizontal" method="POST" action="{% url  'update_profile' %}">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">昵称</label>
+                    <div class="col-sm-4">
+                        <input type="text" value="{{ user.username }}" class="form-control rounded" name="username">
+                        <p class="text-danger text-center">
+                            {% for key, error in login_form.errors.items %}
+                                {{ error }}
+                            {% endfor %}
+                            {{ msg }}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">邮箱</label>
+                    <div class="col-sm-4">
+                        <input type="text" value="{{ user.email }}" class="form-control rounded" name="email">
+                        <p class="text-danger text-center">
+                            {% for key, error in login_form.errors.items %}
+                                {{ error }}
+                            {% endfor %}
+                            {{ msg }}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">生日</label>
+                    <div class="col-sm-4">
+                        <input type="text" value="{{ user.birthday|date:"Y-m-d" }}" class="form-control rounded"
+                               name="birthday">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">手机</label>
+                    <div class="col-sm-4">
+                        <input type="text" value="{{ user.mobile }}" class="form-control rounded" name="mobile">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"></label>
+                    <div class="col-sm-4">
+                        <input type="submit" class="form-control rounded btn btn-success">
+                    </div>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+    </section>
+{% endblock %}
