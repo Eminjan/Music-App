@@ -7,14 +7,16 @@ from django.views.generic.base import View
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 
-from music.models import Music,Video
-from .models import MusicComment,FavoriteMusic,VideoComment
-from .forms import MusicCommentForm,VideoCommentForm
+from music.models import Music, Video
+from .models import MusicComment, FavoriteMusic, VideoComment
+from .forms import MusicCommentForm, VideoCommentForm
+
 
 class MusicCommentView(View):
     """
     音乐评论
     """
+
     def post(self, request):
         if not request.user.is_authenticated():
             return render(request, 'login.html')
@@ -59,15 +61,44 @@ class FavoriteMusicView(View):
     音乐收藏View
     """
 
-    def post(self,request):
+    def post(self, request):
         if not request.user.is_authenticated():
             return render(request, 'login.html')
 
-        music_id = request.POST.get("music_id","")
-        fav_music =FavoriteMusic(user=request.user,music_id = music_id)
+        music_id = request.POST.get("music_id", "")
+        fav_music = FavoriteMusic(user=request.user, music_id=music_id)
         fav_music.save()
 
-        return HttpResponseRedirect(reverse("music_play",args=(music_id,)), {
-                                   "fav_music":fav_music,
+        return HttpResponseRedirect(reverse("music_play", args=(music_id,)), {
+            "fav_music": fav_music,
 
         })
+
+
+
+        # class AddFavView(View):
+        #     """
+        #     用户收藏与取消功能
+        #     """
+        #
+        #     def post(self, request):
+        #         id = request.POST.get("music_id", "")
+        #
+        #         if not request.user.is_authenticated:
+        #             # 未登录时返回json提示未登录，跳转到登录页面是在ajax中做的
+        #             return HttpResponse('{"status":"fail", "msg":"用户未登录"}', content_type='application/json')
+        #         exit_records = FavoriteMusic.objects.filter(user = request.user,music_id=int(id))
+        #         if exit_records:
+        #             exit_records.delete()
+        #             music = Music.objects.get(id = int(id))
+        #             music.fav_nums-=1
+        #             return HttpResponse('{"status":"success", "msg":"收藏"}', content_type='application/json')
+        #         else:
+        #             fav_music = FavoriteMusic
+        #             if int(id)>0:
+        #                 fav_music.music_id = int(id)
+        #                 fav_music.save()
+        #
+        #                 return HttpResponse('{"status":"success", "msg":"已收藏"}', content_type='application/json')
+        #             else:
+        #                 return HttpResponse('{"status":"fail", "msg":"收藏出错"}', content_type='application/json')

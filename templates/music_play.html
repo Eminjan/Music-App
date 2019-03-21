@@ -31,6 +31,24 @@
                         <button type="button" id="pause" class="btn btn-danger"><i class="fa fa-pause"></i></button>
                         <button type="button" id="next" class="btn btn-info"><i class="fa fa-forward"></i></button>
                     </div>
+                    <div style="margin-top: 50px;">
+                        <form method="POST" action="{% url 'fav_music' %}">
+                            <div class="form-group">
+                                <input type="hidden" name="music_id" value="{{ music.id }}">
+                                {% if has_fav_music %}
+                                    <button style="" type="submit" disabled="disabled"
+                                            class="btn btn-primary btn-rounded">
+                                        &nbsp;&nbsp;已收藏&nbsp;&nbsp;</button>
+                                {% else %}
+                                    <button style="" type="submit" onclick="myFunction()"
+                                            class="btn btn-danger btn-rounded">
+                                        收藏电影
+                                    </button>
+                                {% endif %}
+                            </div>
+                            {% csrf_token %}
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,21 +82,7 @@
                             <button type="submit" class="btn btn-success">提交评论</button>
                             {% csrf_token %}
                         </form>
-                        <form method="POST" action="{% url 'fav_music' %}">
-                            <div class="form-group">
-                                <input type="hidden" name="music_id" value="{{ music.id }}">
-                                {% if music.id == fav_music.user_id %}
-                                    <button type="submit" disabled="disabled" class="btn btn-danger">
-                                        已收藏
-                                    </button>
-                                {% else %}
-                                    <button type="submit" class="btn btn-danger" onclick="myFunction()">
-                                        收藏音乐
-                                    </button>
-                                {% endif %}
-                            </div>
-                            {% csrf_token %}
-                        </form>
+
                     {% endif %}
                     <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
                         {% for comment in comments.object_list %}
@@ -89,41 +93,43 @@
                                 </a>
                                 <a class="clear" href="{% url 'user_center' %}">
                                     <span class="block text-ellipsis">{{ comment.user.username }}</span>
-                                    <small class="text-muted">{% autoescape off %}{{ comment.content }}{% endautoescape %}</small>
+                                    <small class="text-muted">
+                                        {% autoescape off %}{{ comment.content }}{% endautoescape %}</small>
                                     <small class="pull-right">时间:{{ comment.add_time|date:"Y-m-d H:i" }}</small>
                                 </a>
                             </li>
                         {% endfor %}
                     </ul>
-                <div class="col-md-12 text-center">
+                    <div class="col-md-12 text-center">
                         <nav aria-label="Page navigation">
-                             <ul class="pagination">
-                        {% if comments.has_previous %}
-                            <li>
-                            <a href="?{{ comments.previous_page_number.querystring }}" aria-label="Previous">
-                                <span aria-hidden="true">上一页</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                        {% for page in comments.pages %}
-                          {% if page %}
-                            {% ifequal page comments.number %}
-                               <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
-                            {% else %}
-                               <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
-                            {% endifequal %}
-                          {% else %}
-                             <li class="none"><a href="">...</a></li>
-                      {% endif %}
-                       {% endfor %}
-                    {% if comments.has_next %}
-                        <li>
-                            <a href="?{{ comments.next_page_number.querystring }}" aria-label="Next">
-                                <span aria-hidden="true">下一页</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                    </ul>
+                            <ul class="pagination">
+                                {% if comments.has_previous %}
+                                    <li>
+                                        <a href="?{{ comments.previous_page_number.querystring }}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% for page in comments.pages %}
+                                    {% if page %}
+                                        {% ifequal page comments.number %}
+                                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        {% else %}
+                                            <li><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                                        {% endifequal %}
+                                    {% else %}
+                                        <li class="none"><a href="">...</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if comments.has_next %}
+                                    <li>
+                                        <a href="?{{ comments.next_page_number.querystring }}" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
                         </nav>
                     </div>
                 </div>

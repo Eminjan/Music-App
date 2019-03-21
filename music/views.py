@@ -10,7 +10,7 @@ from django_redis import get_redis_connection
 
 from music import models
 from .models import MusicType, Singer, Music, Video, News
-from operation.models import MusicComment, VideoComment
+from operation.models import MusicComment, VideoComment,FavoriteMusic
 from utils.mixin import LoginRequiredMixin
 
 
@@ -244,6 +244,10 @@ class MusicPlayView(View):
         # 音乐增加点击数
         music.click_nums += 1
         music.save()
+        has_fav_music =False
+        if request.user.is_authenticated:
+            if FavoriteMusic.objects.filter(user_id = request.user.id,music_id = music_id):
+                has_fav_music = True
         comments = MusicComment.objects.filter(music_id=music_id).order_by('-add_time')
         try:
             page = request.GET.get('page', 1)
@@ -265,6 +269,7 @@ class MusicPlayView(View):
         return render(request, "music_play.html", {
             'music': music,
             'comments': comments,
+            'has_fav_music':has_fav_music,
         })
 
 

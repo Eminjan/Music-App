@@ -56,6 +56,7 @@ urlpatterns = [
     url('^music_comment/$', MusicCommentView.as_view(), name='music_comment'),
     url('^fav_music/$',FavoriteMusicView.as_view(),name="fav_music"),
     url('^video_comment/$', VideoCommentView.as_view(), name='video_comment'),
+    # url('^add_fav/$',AddFavView.as_view(),name="add_fav"),
 
 
 
