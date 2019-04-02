@@ -22,7 +22,7 @@
                                         <span class="badge bg-dark m-l-sm m-t-sm">{{ video.video_time }}</span>
                                     </div>
                                     <a href="{% url 'video_detail' video.id %}"><img src="{{ video.image.url }}" alt=""
-                                                                          class="r r-2x" width="400px"
+                                                                          class="r r-2x" width="395px"
                                                                           height="200px"></a>
                                 </div>
                                 <div class="padder-v">
@@ -49,13 +49,13 @@
                                             <a href="{% url 'video_detail' video.id %}"><i class="fa fa-play-circle i-2x"></i></a>
                                         </div>
                                     </div>
-                                    <a href="{% url 'video_detail' video.id %}"><img src="/media{{ al_video.image }}/" alt=""
+                                    <a href="{% url 'video_detail' video.id %}"><img src="{{ video.image.url }}" alt=""
                                                                           class="r r-2x img-full"></a>
                                 </div>
                                 <div class="padder-v">
-                                    <a href="{% url 'video_detail' video.id %}" class="text-ellipsis">{{ al_video.vide_name }}</a>
+                                    <a href="{% url 'video_detail' video.id %}" class="text-ellipsis">{{ video.video_name }}</a>
                                     <a href="{% url 'video_detail' video.id %}"
-                                       class="text-ellipsis text-xs text-muted">{{ al_video.singer }}</a>
+                                       class="text-ellipsis text-xs text-muted">{{ video.singer }}</a>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                             <li><a href="?page={{ p }}">{{ p }}</a></li>
                         {% endifequal %}
                     {% endfor %}
-                    {% if all_music.has_next %}
+                    {% if all_video.has_next %}
                         <li><a href="?page={{ all_video.next_page_number }}"><i class="fa fa-chevron-right"></i></a>
                         </li>
                     {% else %}
