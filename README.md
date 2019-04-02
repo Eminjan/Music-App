@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <a href="#公众号"><img src="https://img.shields.io/badge/language" alt="language"></a>
+  <a href="#公众号"><img src="https://img.shields.io/badge/language-Python3.4+-blue.svg"></a>
   <a href="#投稿"><img src="https://img.shields.io/badge/support-投稿-critical.svg" alt="投稿"></a>
 <h2 align="center">Special Sponsors</h2>
 </p>
