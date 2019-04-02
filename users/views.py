@@ -1,5 +1,6 @@
 from django.contrib import auth
 from django.shortcuts import render, redirect
+from django.core.cache import cache
 import datetime
 from django.core.urlresolvers import reverse
 from django_redis import get_redis_connection
@@ -33,19 +34,25 @@ class IndexView(View):
     """
 
     def get(self, request):
+        # 尝试从缓存中获取数据
+        context = cache.get('index_page_data')
+        if context is None:
+            hot_singer = Singer.objects.filter(
+                isHot=True).order_by('-fav_nums')[:5]
+            all_music = Music.objects.filter(
+                isHot=True).order_by("-click_nums")[:12]
+            new_musics = Music.objects.filter(
+                isNew=True).order_by("-click_nums")[:8]
 
-        hot_singer = Singer.objects.filter(
-            isHot=True).order_by('-fav_nums')[:5]
-        all_music = Music.objects.filter(
-            isHot=True).order_by("-click_nums")[:12]
-        new_musics = Music.objects.filter(
-            isNew=True).order_by("-click_nums")[:8]
-        return render(request, "index.html", {
-            'hot_singer': hot_singer,
-            'all_music': all_music,
-            'new_musics': new_musics,
+            context = {'all_music':all_music,
+                       'new_musics':new_musics,
+                       'hot_singer': hot_singer,
+                        }
 
-        })
+            # 设置缓存
+            # key  value timeout
+            cache.set('index_page_data', context, 3600)
+        return render(request, "index.html", context)
 
 
 class CustomBackend(ModelBackend):
