@@ -1,11 +1,10 @@
 <h1 align="center">听·音乐</h1>
 <p align="center">
-<img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-3/logo - 副本.png" width=""/>
+<img src="https://s2.ax1x.com/2019/04/02/AybNfe.png" alt="AybNfe.png" border="0" />
 </p>
-
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/language-Python3.4+-blue.svg"></a>
-  <a href=""><img src="https://img.shields.io/badge/FrameWork-Django1.9-green.svg"></a>
+  <a href=""><img src="https://img.shields.io/badge/language-Python3.5+-blue.svg"></a>
+  <a href=""><img src="https://img.shields.io/badge/FrameWork-Django1.11-green.svg"></a>
 </p>
 
 基于Python3.6+django1.11的音乐网站，前端使用Bootstrap框架。
