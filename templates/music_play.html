@@ -15,9 +15,9 @@
                 <div id="container">
                     <!--音乐播放器及音乐信息 -->
                     <h3 id="musicName">{{ music.music_name }}</h3>
-                    <img src="/media/{{ music.image }}" width="150px" height="150px" alt="" class="img-circle">
+                    <img src="{{ music.image.url }}" width="150px" height="150px" alt="" class="img-circle">
 
-                    <audio src="/media/{{ music.music_file }}" controls id="audio"></audio>
+                    <audio src="{{ music.music_file.url }}" controls id="audio"></audio>
                     <div class="text-center text-dark">
                         <h4>歌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手:&nbsp;&nbsp;&nbsp;&nbsp;<a
                                 href="{% url 'singer_detail' music.singer_id %}">{{ music.singer }}</a></h4>
@@ -88,7 +88,7 @@
                         {% for comment in comments.object_list %}
                             <li class="list-group-item clearfix">
                                 <a href="{% url 'user_center' %}" class="pull-left  m-r">
-                                    <img src="/media/{{ comment.user.avatar }}" height="45px" width="45px"
+                                    <img src="{{ comment.user.avatar.url }}" height="45px" width="45px"
                                          alt="...">
                                 </a>
                                 <a class="clear" href="{% url 'user_center' %}">

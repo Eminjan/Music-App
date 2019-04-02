@@ -27,7 +27,7 @@
 {#                                        <span class="pull-right text-sm">101,400 <br>关注</span>#}
                                         <a href="{% url 'singer_detail' singer_id %}"><span class="h2 font-thin">{{ random_singer.name }}</span></a>
                                     </div>
-                                    <img class="img-full" src="/media/{{ random_singer.avatar }}" height="265px"
+                                    <img class="img-full" src="{{ random_singer.avatar.url }}" height="265px"
                                          alt="...">
                                 </div>
                                 <!-- 歌曲列表--->
@@ -67,7 +67,7 @@
                                                 <i class="icon-control-play "></i>
                                             </a>
                                             <a href="{% url 'music_play' music.id %}" class="pull-left  m-r">
-                                                <img src="/media/{{ music.image }}" height="45px" width="45px"
+                                                <img src="{{ music.image.url }}" height="45px" width="45px"
                                                      alt="...">
                                             </a>
                                             <a class="clear" href="{% url 'music_play' music.id %}">

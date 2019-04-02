@@ -15,7 +15,7 @@
                             <section class="scrollable">
                                 <div class="wrapper">
                                     <div class="text-center m-b m-t">
-                                            <img src="/media/{{ user.avatar }}" width="128px" height="128px" class="img-circle">
+                                            <img src="{{ user.avatar.url }}" width="128px" height="128px" class="img-circle">
                                         <div>
                                             <div class="h3 m-t-xs m-b-xs">{{ user.username }}</div>
                                             <small class="text-muted"><i class="fa fa-map-marker"></i>
@@ -67,7 +67,7 @@
                                             {% for music in musics_li %}
                                             <li class="list-group-item">
                                                 <a href="{% url 'music_play' music.id %}" class=" pull-left m-r-sm">
-                                                    <img src="/media/{{ music.image }} " width="40px" height="40px" class="img-circle">
+                                                    <img src="{{ music.image.url }} " width="40px" height="40px" class="img-circle">
                                                 </a>
                                                 <a href="{% url 'music_play' music.id %}" class="clear">
                                                     <small class="pull-right">时间:{{ music.add_time|date:"Y-m-d" }}</small>
@@ -89,7 +89,7 @@
                                             {% for fav_music in fav_musics %}
                                             <li class="list-group-item">
                                                 <a href="{% url 'music_play' fav_music.music_id %}" class=" pull-left m-r-sm">
-                                                    <img src="/media/{{ fav_music.music.image }} " width="40px" height="40px" class="img-circle">
+                                                    <img src="{{ fav_music.music.image.url }} " width="40px" height="40px" class="img-circle">
                                                 </a>
                                                 <a href="{% url 'music_play' fav_music.music_id %}" class="clear">
                                                     <small class="pull-right">收藏时间:{{ fav_music.add_time|date:"Y-m-d" }}</small>

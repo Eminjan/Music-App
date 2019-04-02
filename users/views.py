@@ -16,12 +16,12 @@ from django.db.models import Q
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired
 # 发送邮件
-from music.models import Singer,Music, Video
+from music.models import Singer, Music, Video
 from utils.email_send import send_register_email
-from .forms import RegisterForm, LoginForm,ModifyPwdForm,UpdateUserProfileForm,UploadAvatarForm, ActiveForm
+from .forms import RegisterForm, LoginForm, ModifyPwdForm, UpdateUserProfileForm, UploadAvatarForm, ActiveForm
 from .models import UserProfile, EmailVerifyRecord
 from operation.models import UserMessage
-from operation.models import UserMessage,FavoriteMusic
+from operation.models import UserMessage, FavoriteMusic
 from utils.mixin import LoginRequiredMixin
 
 
@@ -31,15 +31,19 @@ class IndexView(View):
     """
     首页
     """
-    def get(self,request):
 
-        hot_singer = Singer.objects.filter(isHot=True).order_by('-fav_nums')[:5]
-        all_music = Music.objects.filter(isHot=True).order_by("-click_nums")[:12]
-        new_musics = Music.objects.filter(isNew=True).order_by("-click_nums")[:8]
-        return render(request,"index.html",{
-            'hot_singer':hot_singer,
-            'all_music':all_music,
-            'new_musics':new_musics,
+    def get(self, request):
+
+        hot_singer = Singer.objects.filter(
+            isHot=True).order_by('-fav_nums')[:5]
+        all_music = Music.objects.filter(
+            isHot=True).order_by("-click_nums")[:12]
+        new_musics = Music.objects.filter(
+            isNew=True).order_by("-click_nums")[:8]
+        return render(request, "index.html", {
+            'hot_singer': hot_singer,
+            'all_music': all_music,
+            'new_musics': new_musics,
 
         })
 
@@ -64,6 +68,8 @@ class CustomBackend(ModelBackend):
             return None
 
 #
+
+
 class ActiveUserView(View):
     """
     用户激活视图
@@ -132,7 +138,7 @@ class RegisterView(View):
 
             send_register_email(user_name, "register")
             return render(request, "login.html", {
-                "msg":"注册成功,请前往邮箱激活账号"
+                "msg": "注册成功,请前往邮箱激活账号"
             })
         else:
             return render(
@@ -211,29 +217,29 @@ class LogoutView(View):
         return HttpResponseRedirect(reverse("index"))
 
 
-class UserCenterView(LoginRequiredMixin,View):
+class UserCenterView(LoginRequiredMixin, View):
     """
     用户中心
     """
 
-    def get(self,request):
+    def get(self, request):
         user = request.user
         all_message = UserMessage.objects.filter(user=request.user.id)
         # 获取用户的历史音乐浏览记录
-        conn= get_redis_connection('default')
+        conn = get_redis_connection('default')
         history_key = 'history_%d' % user.id
         # 获取用户最新浏览的5个音乐的id
         music_ids = conn.lrange(history_key, 0, 4)  # [2,3,1]
         # 遍历获取用户浏览的音乐信息
         musics_li = []
         for id in music_ids:
-            music = Music.objects.get(id= id)
+            music = Music.objects.get(id=id)
             musics_li.append(music)
-
 
         fav_musics = FavoriteMusic.objects.all().order_by('-id')
         # 用户进入个人中心消息页面，清空未读消息记录
-        all_unread_messages = UserMessage.objects.filter(user=request.user.id, has_read=False)
+        all_unread_messages = UserMessage.objects.filter(
+            user=request.user.id, has_read=False)
         for unread_message in all_unread_messages:
             unread_message.has_read = True
             unread_message.save()
@@ -245,10 +251,10 @@ class UserCenterView(LoginRequiredMixin,View):
         p = Paginator(all_message, 4)
         messages = p.page(page)
         return render(request, "user_profile.html", {
-            "user":user,
+            "user": user,
             "messages": messages,
-            "musics_li":musics_li,
-            "fav_musics":fav_musics,
+            "musics_li": musics_li,
+            "fav_musics": fav_musics,
         })
 
 
@@ -257,37 +263,39 @@ class UpdateUserProfileView(View):
     修改个人资料
     """
 
-    def get(self,request):
+    def get(self, request):
         update_form = UpdateUserProfileForm(request.POST)
-        return render(request, "update_user_profile.html",{"update_form":update_form})
+        return render(
+            request, "update_user_profile.html", {
+                "update_form": update_form})
 
-    def post(self,request):
+    def post(self, request):
         update_form = UpdateUserProfileForm(request.POST)
         if update_form.is_valid():
-            user_name = request.POST.get("username","")
+            user_name = request.POST.get("username", "")
             # 用户名查重
-            if UserProfile.objects.filter(username = user_name):
-                return render(request,"update_user_profile.html",{
-                    "update_form":update_form,"msg":"用户名已占用"
+            if UserProfile.objects.filter(username=user_name):
+                return render(request, "update_user_profile.html", {
+                    "update_form": update_form, "msg": "用户名已占用"
                 })
-            email = request.POST.get("email","")
+            email = request.POST.get("email", "")
             # 邮箱查重
-            if UserProfile.objects.filter(email = email):
-                return render(request,"update_user_profile.html",{
-                    "update_form":update_form,"msg":"邮箱已存在"
+            if UserProfile.objects.filter(email=email):
+                return render(request, "update_user_profile.html", {
+                    "update_form": update_form, "msg": "邮箱已存在"
                 })
-            birthday = request.POST.get("birthday","")
-            mobile = request.POST.get("mobile","")
+            birthday = request.POST.get("birthday", "")
+            mobile = request.POST.get("mobile", "")
             user = request.user
             user.username = user_name
             user.email = email
             user.birthday = birthday
             user.mobile = mobile
             user.save()
-            return render(request,"user_profile.html")
+            return render(request, "user_profile.html")
         else:
-            return render(request,"update_user_profile.html",{
-                "update_form":update_form,"msg":"修改失败"
+            return render(request, "update_user_profile.html", {
+                "update_form": update_form, "msg": "修改失败"
             })
 
 
@@ -306,12 +314,12 @@ class UploadAvatarView(View):
             avatar = avatar_form.cleaned_data['avatar']
             request.user.avatar = avatar
             request.user.save()
-            return render(request,"update_user_profile.html",{
+            return render(request, "update_user_profile.html", {
 
             })
         else:
-            return render(request,"update_user_profile.html",{
-                "avatar_form":avatar_form,"msg":"上传失败"
+            return render(request, "update_user_profile.html", {
+                "avatar_form": avatar_form, "msg": "上传失败"
             })
 
 
@@ -330,7 +338,7 @@ class ModifyPwdView(View):
             pwd1 = request.POST.get('password1', '')
             pwd2 = request.POST.get('password2', '')
             if pwd1 != pwd2:
-                return render(request, 'modify_pwd.html', { 'msg': '密码不一致'})
+                return render(request, 'modify_pwd.html', {'msg': '密码不一致'})
             user = request.user
             user.password = make_password(pwd2)
             user.save()
@@ -347,10 +355,11 @@ class UserMessageView(View):
     用户消息通知
     """
 
-    def get(self,request):
-        all_message = UserMessage.objects.filter(user= request.user.id)
+    def get(self, request):
+        all_message = UserMessage.objects.filter(user=request.user.id)
         # 用户进入个人中心消息页面，清空未读消息记录
-        all_unread_messages = UserMessage.objects.filter(user = request.user.id,has_read=False)
+        all_unread_messages = UserMessage.objects.filter(
+            user=request.user.id, has_read=False)
         for unread_message in all_unread_messages:
             unread_message.has_read = True
             unread_message.save()

@@ -11,7 +11,10 @@ class MusicComment(models.Model):
     """
     音乐评论
     """
-    music = models.ForeignKey(Music, on_delete=models.CASCADE, verbose_name="评论所属的音乐")
+    music = models.ForeignKey(
+        Music,
+        on_delete=models.CASCADE,
+        verbose_name="评论所属的音乐")
     user = models.ForeignKey(UserProfile, max_length=32, verbose_name="评论者")
     content = models.TextField(default='', verbose_name="评论详情")
     add_time = models.DateTimeField(auto_now_add=True, verbose_name="添加时间")
@@ -21,14 +24,17 @@ class MusicComment(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return '用户({0})对于《{1}》 评论 :'.format(self.name, self.music)
+        return '用户({0})对于《{1}》 评论 :'.format(self.user, self.music)
 
 
 class VideoComment(models.Model):
     """
     视频评论
     """
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, verbose_name="评论所属的视频")
+    video = models.ForeignKey(
+        Video,
+        on_delete=models.CASCADE,
+        verbose_name="评论所属的视频")
     user = models.ForeignKey(UserProfile, max_length=32, verbose_name="评论者")
     content = models.TextField(default='', verbose_name="评论详情")
     add_time = models.DateTimeField(auto_now_add=True, verbose_name="添加时间")
@@ -38,15 +44,21 @@ class VideoComment(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return '用户({0})对于《{1}》 评论 :'.format(self.name, self.video)
+        return '用户({0})对于《{1}》 评论 :'.format(self.user, self.video)
 
 
 class FavoriteMusic(models.Model):
     """
     用户收藏音乐
     """
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='用户')
-    music = models.ForeignKey(Music, on_delete=models.CASCADE, verbose_name='音乐')
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        verbose_name='用户')
+    music = models.ForeignKey(
+        Music,
+        on_delete=models.CASCADE,
+        verbose_name='音乐')
     add_time = models.DateTimeField(default=datetime.now, verbose_name="收藏时间")
 
     class Meta:
@@ -61,8 +73,14 @@ class FavoriteVideo(models.Model):
     """
     用户收藏视频
     """
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='用户')
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, verbose_name='视频')
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        verbose_name='用户')
+    video = models.ForeignKey(
+        Video,
+        on_delete=models.CASCADE,
+        verbose_name='视频')
     add_time = models.DateTimeField(default=datetime.now, verbose_name="收藏时间")
 
     class Meta:
@@ -94,8 +112,14 @@ class UserMusic(models.Model):
     """
     用户收听的音乐
     """
-    music = models.ForeignKey(Music, on_delete=models.CASCADE, verbose_name="音乐")
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="用户")
+    music = models.ForeignKey(
+        Music,
+        on_delete=models.CASCADE,
+        verbose_name="音乐")
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        verbose_name="用户")
     add_time = models.DateTimeField(default=datetime.now, verbose_name="收听时间")
 
     class Meta:

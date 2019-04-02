@@ -10,7 +10,7 @@ from django_redis import get_redis_connection
 
 from music import models
 from .models import MusicType, Singer, Music, Video, News
-from operation.models import MusicComment, VideoComment,FavoriteMusic
+from operation.models import MusicComment, VideoComment, FavoriteMusic
 from utils.mixin import LoginRequiredMixin
 
 
@@ -78,7 +78,7 @@ class NewsView(View):
         counts = all_news.count()
         return render(request, 'news.html', {
             "all_news": all_news,
-            "counts":counts,
+            "counts": counts,
         })
 
 
@@ -88,7 +88,8 @@ class VideoListView(View):
     """
 
     def get(self, request):
-        recommend_video = Video.objects.filter(isRecommend=True).order_by('-click_nums')[:3]
+        recommend_video = Video.objects.filter(
+            isRecommend=True).order_by('-click_nums')[:3]
         all_video = Video.objects.get_queryset().order_by('id')
         # 生成paginator对象,定义每页显示10条记录
         paginator = Paginator(all_video, 12)
@@ -112,17 +113,19 @@ class VideoListView(View):
         })
 
 
-class VideoDetailView(LoginRequiredMixin,View):
+class VideoDetailView(LoginRequiredMixin, View):
     """
     video_play视图
     """
 
     def get(self, request, video_id, ):
         video = Video.objects.get(id=int(video_id))
-        recommend_video = Video.objects.get_queryset().order_by('-click_nums')[:7]
+        recommend_video = Video.objects.get_queryset().order_by(
+            '-click_nums')[:7]
         video.click_nums += 1
         video.save()
-        comments = VideoComment.objects.filter(video_id=video_id).order_by('-add_time')
+        comments = VideoComment.objects.filter(
+            video_id=video_id).order_by('-add_time')
         try:
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
@@ -156,13 +159,14 @@ class SingerListView(View):
     """
 
     def get(self, request):
-        hot_singer = Singer.objects.filter(isHot=True).order_by('-fav_nums')[:5]
+        hot_singer = Singer.objects.filter(
+            isHot=True).order_by('-fav_nums')[:5]
         return render(request, "index.html", {
             "hot_singer": hot_singer
         })
 
 
-class SingerDetailView(LoginRequiredMixin,View):
+class SingerDetailView(LoginRequiredMixin, View):
     """
     歌手详情
     """
@@ -192,7 +196,8 @@ class MusicTypeDetailView(View):
         music_types = MusicType.objects.all()
         music_type = MusicType.objects.get(id=int(music_type_id))
         music_type_name = get_object_or_404(MusicType, pk=music_type_id)
-        music_type_musics = Music.objects.filter(music_type=music_type_name).order_by('music_type_id')
+        music_type_musics = Music.objects.filter(
+            music_type=music_type_name).order_by('music_type_id')
         # 生成paginator对象,定义每页显示10条记录
         paginator = Paginator(music_type_musics, 12)
         # 从前端获取当前的页码数,默认为1
@@ -215,7 +220,7 @@ class MusicTypeDetailView(View):
         })
 
 
-class RecommendView(LoginRequiredMixin,View):
+class RecommendView(LoginRequiredMixin, View):
     """
     随机推荐
     """
@@ -244,11 +249,13 @@ class MusicPlayView(View):
         # 音乐增加点击数
         music.click_nums += 1
         music.save()
-        has_fav_music =False
+        has_fav_music = False
         if request.user.is_authenticated:
-            if FavoriteMusic.objects.filter(user_id = request.user.id,music_id = music_id):
+            if FavoriteMusic.objects.filter(
+                    user_id=request.user.id, music_id=music_id):
                 has_fav_music = True
-        comments = MusicComment.objects.filter(music_id=music_id).order_by('-add_time')
+        comments = MusicComment.objects.filter(
+            music_id=music_id).order_by('-add_time')
         try:
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
@@ -269,7 +276,7 @@ class MusicPlayView(View):
         return render(request, "music_play.html", {
             'music': music,
             'comments': comments,
-            'has_fav_music':has_fav_music,
+            'has_fav_music': has_fav_music,
         })
 
 
@@ -283,8 +290,10 @@ class SearchView(View):
         videos = Video.objects.all()
         musics = Music.objects.all()
         if search_keywords:
-            musics = Music.objects.filter(music_name__icontains=search_keywords)
-            videos = Video.objects.filter(video_name__icontains=search_keywords)
+            musics = Music.objects.filter(
+                music_name__icontains=search_keywords)
+            videos = Video.objects.filter(
+                video_name__icontains=search_keywords)
         elif not search_keywords:
             return HttpResponse("请输入输入关键词")
         try:
@@ -300,6 +309,6 @@ class SearchView(View):
             page = 1
         p = Paginator(videos, 10, request=request)
         videos = p.page(page)
-        return render(request, 'search.html', {"musics": musics, "search_keywords": search_keywords,
-                                               "videos": videos,
-                                               })
+        return render(
+            request, 'search.html', {
+                "musics": musics, "search_keywords": search_keywords, "videos": videos, })

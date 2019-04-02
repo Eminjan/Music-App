@@ -4,7 +4,8 @@
 
 import xadmin
 from xadmin import views
-from . models import UserProfile,EmailVerifyRecord
+from . models import UserProfile, EmailVerifyRecord
+
 
 class BaseSetting(object):
     """X admin的全局配置设置"""
@@ -36,9 +37,9 @@ class EmailVerifyRecordAdmin(object):
     """
     注册验证码信息
     """
-    list_display = ['id','code','email','send_type','send_time']
+    list_display = ['id', 'code', 'email', 'send_type', 'send_time']
     ordering = ['-id']
-    list_editable = ['code','send_type']
+    list_editable = ['code', 'send_type']
     model_icon = 'fa fa-code'
 
 
@@ -47,4 +48,4 @@ xadmin.site.register(views.BaseAdminView, BaseSetting)
 # 将头部与脚部信息进行注册:
 xadmin.site.register(views.CommAdminView, GlobalSettings)
 # xadmin.site.register(UserProfile,UserProfileAdmin)
-xadmin.site.register(EmailVerifyRecord,EmailVerifyRecordAdmin)
+xadmin.site.register(EmailVerifyRecord, EmailVerifyRecordAdmin)

@@ -33,7 +33,7 @@
                                                         class="fa fa-play-circle i-2x"></i></a>
                                             </div>
                                         </div>
-                                        <a href="{% url 'music_play' music.id %}"><img src="/media/{{ music.image }}"
+                                        <a href="{% url 'music_play' music.id %}"><img src="{{ music.image.url }}"
                                                                                        alt=""
                                                                                        class="r r-2x" width="100%"
                                                                                        height="140px"></a>

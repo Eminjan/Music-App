@@ -44,7 +44,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <a href="{% url 'music_play' music.id %}"><img src="/media/{{ music.image }}" alt=""
+                            <a href="{% url 'music_play' music.id %}"><img src="{{ music.image.url }}" alt=""
                                                                            class="r r-2x img-full"></a>
                         </div>
                         <div class="padder-v">
@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
                                     <a href="{% url 'music_play' new_music.id %}"><img
-                                            src="/media/{{ new_music.image }}" alt=""
+                                            src="{{ new_music.image.url }}" alt=""
                                             class="r r-2x" width="100%" height="140px"></a>
                                 </div>
                                 <div class="padder-v">
@@ -100,7 +100,7 @@
                         <a href="{% url 'singer_detail' singer.id %}" class="list-group-item clearfix">
                             <span class="pull-right h2 text-muted m-l">{{ singer.fav_nums }}</span>
                             <span class="pull-left thumb-sm avatar m-r">
-                            <img src="/media/{{ singer.avatar }}" alt="...">
+                            <img src="{{ singer.avatar.url }}" alt="...">
                         </span>
                             <span class="clear">
                             <span>{{ singer.name }}</span>

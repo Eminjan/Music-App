@@ -155,8 +155,8 @@ EMAIL_USE_TLS = True
 EMAIL_FROM = 'eminjan123@qq.com'
 
 
-MEDIA_URL="/media/"
-MEDIA_ROOT=os.path.join(BASE_DIR, "media")
+# MEDIA_URL="/media/"
+# MEDIA_ROOT=os.path.join(BASE_DIR, "media")
 
 # pure-pagination 配置项
 PAGINATION_SETTINGS = {
@@ -167,6 +167,15 @@ PAGINATION_SETTINGS = {
 }
 
 LOGIN_URL = '/login/'
+
+
+# 设置Django的文件存储类
+DEFAULT_FILE_STORAGE='utils.fdfs.storage.FDFSStorage'
+#设置fdfs使用的client.conf文件路径
+FDFS_CLIENT_CONF = os.path.join(BASE_DIR,'./utils/fdfs/client.conf')
+
+FDFS_URL='http://132.232.209.153:8888/'
+
 
 # Django的缓存配置
 CACHES = {

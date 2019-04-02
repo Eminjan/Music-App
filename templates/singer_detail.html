@@ -16,7 +16,7 @@
                                 <div class="wrapper">
                                     <div class="text-center m-b m-t">
                                         <a href="#" class="thumb-lg">
-                                            <img src="/media/{{ singer.avatar }}" class="img-circle">
+                                            <img src="{{ singer.avatar.url }}" class="img-circle">
                                         </a>
                                         <div>
                                             <div class="h3 m-t-xs m-b-xs">{{ singer.name }}</div>
@@ -77,7 +77,7 @@
                                             {% for singer_music in singer_musics %}
                                                 <li class="list-group-item">
                                                     <a href="{% url 'music_play' singer_music.id %}" class=" pull-left m-r-sm">
-                                                        <img src="/media/{{ singer_music.image }}" width="40px" height="40px" class="img-circle">
+                                                        <img src="{{ singer_music.image.url }}" width="40px" height="40px" class="img-circle">
                                                     </a>
                                                     <a href="{% url 'music_play' singer_music.id %}" class="clear">
                                                         <small class="pull-right">
@@ -101,7 +101,7 @@
                                             {% for singer_video in singer_videos %}
                                                 <li class="list-group-item">
                                                     <a href="{% url 'video_detail' singer_video.id %}" class="thumb-sm pull-left m-r-sm">
-                                                        <img src="/media/{{ singer_video.image }}" class="img-circle">
+                                                        <img src="{{ singer_video.image.url }}" class="img-circle">
                                                     </a>
                                                     <a href="{% url 'video_detail' singer_video.id %}" class="clear">
                                                         <small class="pull-right">

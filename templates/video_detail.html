@@ -78,7 +78,7 @@
                                     {% for comment in comments.object_list %}
                                         <li class="list-group-item clearfix">
                                             <a href="{% url 'user_center' %}" class="pull-left  m-r">
-                                                <img src="/media/{{ comment.user.avatar }}" height="45px" width="45px"
+                                                <img src="{{ comment.user.avatar.url }}" height="45px" width="45px"
                                                      alt="...">
                                             </a>
                                             <a class="clear" href="{% url 'user_center' %}">
@@ -132,7 +132,7 @@
                                 {% for r_video in recommend_video %}
                                     <article class="media">
                                         <a href="{% url 'video_detail' video.id %}" class="pull-left m-t-xs">
-                                            <img src="/media/{{ r_video.image }}" width="128px" height="64px">
+                                            <img src="{{ r_video.image.url }}" width="128px" height="64px">
                                         </a>
                                         <div class="media-body">
                                             <a href="{% url 'video_detail' video.id %}"
@@ -183,7 +183,7 @@
         jwplayer("moviecontainer").setup({
             flashplayer: "{% static 'jwplayer/jwplayer.flash.swf' %}",
             playlist: [{
-                file: "/media/{{ video.video_file }}",//如果使用上传的文件
+                file: "{{ video.video_file.url }}",//如果使用上传的文件
                 title: "{{ video.video_name }}"
             }],
             modes: [{

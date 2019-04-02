@@ -18,7 +18,7 @@
                     {% for music in musics.object_list %}
                         <li class="list-group-item">
                             <a href="{% url 'music_play' music.id %}" class="pull-left m-r-sm">
-                                <img src="/media/{{ music.image }}" width="40px" height="40px" alt="">
+                                <img src="{{ music.image.url }}" width="40px" height="40px" alt="">
                             </a>
                             <a href="{% url 'music_play' music.id %}" class="clear">
                                 <small class="pull-right">时间:{{ music.add_time|date:"Y-m-d" }}</small>
@@ -69,7 +69,7 @@
                     {% for video in videos.object_list %}
                         <li class="list-group-item">
                             <a href="{% url 'video_detail' video.id %}" class="pull-left m-r-sm">
-                                <img src="/media/{{ video.image }}" width="40px" height="40px" alt="">
+                                <img src="{{ video.image.url }}" width="40px" height="40px" alt="">
                             </a>
                             <a href="{% url 'video_detail' video.id %}" class="clear">
                                 <small class="pull-right">时间:{{ video.add_time|date:"Y-m-d" }}</small>
