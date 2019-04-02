@@ -1,4 +1,19 @@
-[![A3OtIS.png](https://s2.ax1x.com/2019/03/22/A3OtIS.png)](https://imgchr.com/i/A3OtIS)
+<h1 align="center">听·音乐</h1>
+<p align="center">
+<img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-3/logo - 副本.png" width=""/>
+</p>
+
+<p align="center">
+  <a href="#公众号"><img src="https://img.shields.io/badge/language" alt="language"></a>
+  <a href="#投稿"><img src="https://img.shields.io/badge/support-投稿-critical.svg" alt="投稿"></a>
+<h2 align="center">Special Sponsors</h2>
+</p>
+
+<p align="center">
+<a href="https://e.coding.net/?utm_source=JavaGuide" target="_blank">
+  <img src="https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-3/Coding Devops.png" width=""/>
+ </a>
+</p>
 
 基于Python3.6+django1.11的音乐网站，前端使用Bootstrap框架。
 + 🔍支持音乐，视频搜索
