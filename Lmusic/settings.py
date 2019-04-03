@@ -96,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "lmusic",
         'USER': 'root',
-        'PASSWORD' :'root',
+        'PASSWORD' :'####',#数据库密码
         'HOST' : '127.0.0.1',
         'OPTIONS':{
             'init_command':'SET foreign_key_checks = 0;'
