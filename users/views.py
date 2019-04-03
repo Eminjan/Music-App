@@ -36,6 +36,7 @@ class IndexView(View):
     def get(self, request):
         # 尝试从缓存中获取数据
         context = cache.get('index_page_data')
+        # 判断是否已经缓存
         if context is None:
             hot_singer = Singer.objects.filter(
                 isHot=True).order_by('-fav_nums')[:5]
@@ -44,14 +45,15 @@ class IndexView(View):
             new_musics = Music.objects.filter(
                 isNew=True).order_by("-click_nums")[:8]
 
-            context = {'all_music':all_music,
-                       'new_musics':new_musics,
+            context = {'all_music': all_music,
+                       'new_musics': new_musics,
                        'hot_singer': hot_singer,
-                        }
+                       }
 
             # 设置缓存
             # key  value timeout
             cache.set('index_page_data', context, 3600)
+            # 渲染页面
         return render(request, "index.html", context)
 
 
