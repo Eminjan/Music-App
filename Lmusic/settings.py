@@ -96,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': "lmusic",
         'USER': 'root',
-        'PASSWORD' :'####',#数据库密码
+        'PASSWORD' :'root',#数据库密码
         'HOST' : '127.0.0.1',
         'OPTIONS':{
             'init_command':'SET foreign_key_checks = 0;'
@@ -150,7 +150,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'eminjan123@qq.com'
-EMAIL_HOST_PASSWORD = '####'#授权码
+EMAIL_HOST_PASSWORD = 'zzpyfmefbhzobgfd'#授权码
 EMAIL_USE_TLS = True
 EMAIL_FROM = 'eminjan123@qq.com'
 
@@ -174,7 +174,7 @@ DEFAULT_FILE_STORAGE='utils.fdfs.storage.FDFSStorage'
 #设置fdfs使用的client.conf文件路径
 FDFS_CLIENT_CONF = os.path.join(BASE_DIR,'./utils/fdfs/client.conf')
 
-FDFS_URL='http://132.232.209.153:8888/'
+FDFS_URL='http://106.52.230.98:8888/'
 
 
 # Django的缓存配置

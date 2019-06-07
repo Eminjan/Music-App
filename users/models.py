@@ -26,7 +26,7 @@ class UserProfile(AbstractUser):
     avatar = models.ImageField(
         max_length=100,
         upload_to='avatar/%Y/%m',
-        default='',
+        default='group1\M00/00/00/rBAABVzok7aAbcZnAAAUSzOR5oA8666191',
         verbose_name='头像')
 
     class Meta:

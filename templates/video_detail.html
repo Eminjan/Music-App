@@ -183,7 +183,7 @@
         jwplayer("moviecontainer").setup({
             flashplayer: "{% static 'jwplayer/jwplayer.flash.swf' %}",
             playlist: [{
-                file: "{{ video.video_file.url }}",//如果使用上传的文件
+                file: "{{ video.video_url }}",//如果使用上传的文件
                 title: "{{ video.video_name }}"
             }],
             modes: [{

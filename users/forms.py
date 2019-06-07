@@ -43,9 +43,9 @@ class UpdateUserProfileForm(forms.Form):
     修改个人资料
     """
     username = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=False)
     birthday = forms.DateField(required=True)
-    mobile = forms.CharField(required=True)
+    address = forms.CharField(required=False)
 
 from captcha.fields import CaptchaField
 # 激活时验证码实现

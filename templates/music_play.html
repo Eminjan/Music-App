@@ -6,6 +6,7 @@
     正在播放|>>{{ music.music_name }}
 {% endblock %}
 {% block custom_css %}
+    <link rel="stylesheet" href="{% static 'css/share.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/em_play.css' %}" type="text/css"/>
 {% endblock %}
 {% block content %}
@@ -31,24 +32,26 @@
                         <button type="button" id="pause" class="btn btn-danger"><i class="fa fa-pause"></i></button>
                         <button type="button" id="next" class="btn btn-info"><i class="fa fa-forward"></i></button>
                     </div>
-                    <div style="margin-top: 50px;">
+                    <div style="margin-top: 40px;">
                         <form method="POST" action="{% url 'fav_music' %}">
                             <div class="form-group">
                                 <input type="hidden" name="music_id" value="{{ music.id }}">
                                 {% if has_fav_music %}
-                                    <button style="" type="submit" disabled="disabled"
-                                            class="btn btn-primary btn-rounded">
+                                    <button style="" type="submit"
+                                            class="btn btn-primary btn-rounded" onclick="myFunction1()">
                                         &nbsp;&nbsp;已收藏&nbsp;&nbsp;</button>
                                 {% else %}
                                     <button style="" type="submit" onclick="myFunction()"
                                             class="btn btn-danger btn-rounded">
-                                        收藏电影
+                                        收藏音乐
                                     </button>
                                 {% endif %}
                             </div>
                             {% csrf_token %}
                         </form>
                     </div>
+                           <div class="social-share" data-weibo-title="分享到微博是会用这个标题"
+                                         data-qq-title="分享到QQ是会用这个标题" data-sites="wechat, qq, qzone,weibo,douban"></div>
                 </div>
             </div>
         </div>
@@ -138,6 +141,7 @@
     </div>
 {% endblock %}
 {% block custom_js %}
+    <script src="{% static 'js/social-share.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'ueditor/ueditor.config.js' %}"></script>
     <script type="text/javascript" src="{% static 'ueditor/ueditor.all.js' %}"></script>
     <script type="text/javascript" src="{% static 'ueditor/lang/zh-cn/zh-cn.js' %}"></script>
@@ -193,7 +197,12 @@
     </script>
     <script>
         function myFunction() {
-            alert("收藏成功！");
+            alert("✔收藏成功！");
+        }
+    </script>
+    <script>
+        function myFunction1() {
+            alert("✔取消成功！")
         }
     </script>
 {% endblock %}

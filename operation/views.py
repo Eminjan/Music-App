@@ -75,12 +75,19 @@ class FavoriteMusicView(View):
 
         music_id = request.POST.get("music_id", "")
         fav_music = FavoriteMusic(user=request.user, music_id=music_id)
-        fav_music.save()
+        exit_records = FavoriteMusic.objects.filter(user=request.user,music_id=music_id)
+        if exit_records:
+            exit_records.delete()
+            return HttpResponseRedirect(reverse('music_play',args=(music_id,)),{
+                'exit_records':exit_records
+            })
+        else:
+            fav_music.save()
 
-        return HttpResponseRedirect(reverse("music_play", args=(music_id,)), {
-            "fav_music": fav_music,
+            return HttpResponseRedirect(reverse("music_play", args=(music_id,)), {
+                "fav_music": fav_music,
 
-        })
+            })
 
         # class AddFavView(View):
         #     """

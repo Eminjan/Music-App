@@ -14,8 +14,6 @@ from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.hashers import make_password
 # 数据库并集运算
 from django.db.models import Q
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from itsdangerous import SignatureExpired
 # 发送邮件
 from music.models import Singer, Music, Video
 from utils.email_send import send_register_email
@@ -24,6 +22,7 @@ from .models import UserProfile, EmailVerifyRecord
 from operation.models import UserMessage
 from operation.models import UserMessage, FavoriteMusic
 from utils.mixin import LoginRequiredMixin
+# from celery_tasks.tasks import send_mail
 
 
 # Create your views here.
@@ -35,26 +34,30 @@ class IndexView(View):
 
     def get(self, request):
         # 尝试从缓存中获取数据
-        context = cache.get('index_page_data')
-        # 判断是否已经缓存
-        if context is None:
-            hot_singer = Singer.objects.filter(
-                isHot=True).order_by('-fav_nums')[:5]
-            all_music = Music.objects.filter(
-                isHot=True).order_by("-click_nums")[:12]
-            new_musics = Music.objects.filter(
-                isNew=True).order_by("-click_nums")[:8]
+        # context = cache.get('index_page_data')
+        # # # 判断是否已经缓存
+        # if context is None:
+        hot_singer = Singer.objects.filter(
+            isHot=True).order_by('-fav_nums')[:5]
+        all_music = Music.objects.filter(
+            isHot=True).order_by("-click_nums")[:12]
+        new_musics = Music.objects.filter(
+            isNew=True).order_by("-click_nums")[:8]
 
-            context = {'all_music': all_music,
-                       'new_musics': new_musics,
-                       'hot_singer': hot_singer,
-                       }
+        # context = {'all_music': all_music,
+        #            'new_musics': new_musics,
+        #            'hot_singer': hot_singer,
+        #            }
 
-            # 设置缓存
-            # key  value timeout
-            cache.set('index_page_data', context, 3600)
-            # 渲染页面
-        return render(request, "index.html", context)
+        # 设置缓存
+        # key  value timeout
+        # cache.set('index_page_data', context, 3600)
+        # 渲染页面
+        return render(request, "index.html", {
+            'hot_singer': hot_singer,
+            'all_music': all_music,
+            'new_musics': new_musics,
+        })
 
 
 class CustomBackend(ModelBackend):
@@ -139,13 +142,12 @@ class RegisterView(View):
             # 加密password进行保存
             user_profile.password = make_password(pass_word)
             user_profile.save()
-
             user_message = UserMessage()
             user_message.user = user_profile.id
             user_message.message = "欢迎注册【听音乐】小站!! --系统自动消息"
             user_message.save()
-
             send_register_email(user_name, "register")
+            # send_mail.delay(user_name,"register")
             return render(request, "login.html", {
                 "msg": "注册成功,请前往邮箱激活账号"
             })
@@ -170,7 +172,7 @@ class LoginView(View):
 
     def post(self, request):
         # 类实例化需要一个字典参数dict:request.POST就是一个QueryDict所以直接传入
-        # POST中的usernamepassword，会对应到form中
+        # POST中的username，password，会对应到form中
         login_form = LoginForm(request.POST)
         # is_valid判断我们字段是否有错执行我们原有逻辑，验证失败跳回login页面
         if login_form.is_valid():
@@ -178,12 +180,6 @@ class LoginView(View):
             pass_word = request.POST.get('password', '')
             # 成功返回user对象,失败返回null
             user = authenticate(username=user_name, password=pass_word)
-            # if user is not None:
-            #     login(request, user)
-            #     return redirect(request.GET.get('from', reverse('index')))
-            # else:
-            #     return render(request, 'login.html', {'msg': '用户名或密码错误'})
-            # 如果不是null说明验证成功
             if user is not None:
                 # 只有当用户激活时才给登录
                 if user.is_active:
@@ -294,12 +290,12 @@ class UpdateUserProfileView(View):
                     "update_form": update_form, "msg": "邮箱已存在"
                 })
             birthday = request.POST.get("birthday", "")
-            mobile = request.POST.get("mobile", "")
+            address = request.POST.get("address", "")
             user = request.user
             user.username = user_name
             user.email = email
             user.birthday = birthday
-            user.mobile = mobile
+            user.address = address
             user.save()
             return render(request, "user_profile.html")
         else:

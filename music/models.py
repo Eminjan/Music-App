@@ -73,8 +73,8 @@ class Video(models.Model):
     """
     video_name = models.CharField(max_length=32,verbose_name="视频名")
     singer = models.ForeignKey(Singer, on_delete=models.CASCADE, verbose_name="作者", null=True, blank=True)
-    image = models.ImageField(default='',upload_to='video/%Y/%m',max_length=100,verbose_name="视频封面")
-    video_file = models.FileField(upload_to='video/src/%Y/%m',verbose_name="视频文件")
+    image = models.ImageField(null=True,upload_to='video/%Y/%m',max_length=100,verbose_name="视频封面")
+    video_url = models.URLField(null=True,verbose_name='视频链接')
     desc = models.CharField(max_length=300, verbose_name='视频描述描述')
     fav_nums = models.IntegerField(default=0,verbose_name="收藏数")
     click_nums = models.IntegerField(default=0,verbose_name="点击数")

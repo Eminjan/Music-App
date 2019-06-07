@@ -9,6 +9,9 @@
             <section class="vbox animated fadeInUp">
                 <section class="scrollable hover">
                     <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto">
+                        <a href="{% url 'music_type' %}" class="list-group-item">
+                            全部
+                        </a>
                         {% for music_type in music_types %}
                             <a href="{% url 'music_with_type' music_type.id %}" class="list-group-item">
                                 {{ music_type.type_name }}
